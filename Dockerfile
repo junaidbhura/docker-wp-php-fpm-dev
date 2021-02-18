@@ -98,9 +98,13 @@ RUN pecl install xdebug-2.8.1 \
         echo 'xdebug.profiler_output_dir = /var/www/html/'; \
     } > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-# Memcache Extension
+# Memcache and Memcached Extensions
 RUN pecl install memcache-4.0.5.2 \
     && docker-php-ext-enable memcache
+
+RUN apt-get install -y libz-dev libmemcached-dev \
+    && pecl install memcached \
+    && docker-php-ext-enable memcached
 
 # Redis Extension
 RUN pecl install redis-5.1.1 \
