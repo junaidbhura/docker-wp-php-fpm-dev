@@ -87,15 +87,14 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 	&& mv wp-cli.phar /usr/local/bin/wp
 
 # XDebug
-RUN pecl install xdebug-2.8.1 \
+RUN pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && { \
-        echo 'zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20190902/xdebug.so'; \
-        echo 'xdebug.remote_enable = 1'; \
-        echo 'xdebug.remote_autostart = 1'; \
-        echo 'xdebug.remote_host = host.docker.internal'; \
-        echo 'xdebug.profiler_enable = 0'; \
-        echo 'xdebug.profiler_output_dir = /var/www/html/'; \
+        echo 'zend_extension=xdebug'; \
+        echo '[xdebug]'; \
+        echo 'xdebug.mode=off'; \
+        echo 'xdebug.start_with_request=yes'; \
+        echo 'xdebug.client_host=host.docker.internal'; \
     } > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Memcache and Memcached Extensions
